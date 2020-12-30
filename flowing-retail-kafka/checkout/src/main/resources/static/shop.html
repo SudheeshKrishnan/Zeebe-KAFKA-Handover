@@ -1,0 +1,40 @@
+<html>
+
+<body>
+
+<div>
+ Chose Mode of Payment: <br />
+<select name="payment" id="payment">
+  <option class="group" value="netbanking">Net Banking</option>
+  <option class="group" value="creditcard">Credit Card</option>
+</select>
+
+
+  Place your order: <br />
+  <img src="button.png" onclick="placeOrder()" style="width: 100px;"></img>
+  <div id="thanks"></div>
+  </div>
+</body>
+
+	<script type="text/javascript">
+    var count = 0;
+	
+
+		function placeOrder() {
+			
+			var request = {}
+		    request["payment"] = $("#payment").val();
+			 $.ajax({
+			  contentType: "application/json",
+              url: "./api/cart/order",
+              type: "post",
+              data: JSON.stringify(request)
+          }).done(function(result) {
+            count = count+1;
+            $('#thanks').html('Thank you for order #' + count + '.<br>Trace id: <b>' + JSON.parse(result).traceId + '</b>');
+          })
+		}
+	</script>
+  <script src="./jquery.min.js"></script>
+
+</html>
